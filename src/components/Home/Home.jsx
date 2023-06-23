@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { getTrendingMovies } from 'api';
+import { Link } from 'react-router-dom';
 export default function Home() {
   const [popularFilms, setPopularFilms] = useState([]);
   useEffect(() => {
@@ -17,7 +18,11 @@ export default function Home() {
   return (
     <ul>
       {popularFilms.map(({ name, id }) => {
-        return <li key={id}>{name}</li>;
+        return (
+          <li key={id}>
+            <Link to={`/movies/${id}`}>{name}</Link>
+          </li>
+        );
       })}
     </ul>
   );

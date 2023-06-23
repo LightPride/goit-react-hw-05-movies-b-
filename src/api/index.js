@@ -11,3 +11,11 @@ export const getTrendingMovies = async () => {
   }
   return response.json();
 };
+
+export const getMovieById = async id => {
+  const response = await fetch(`${BASE_URL}3/movie/${id}?api_key=${API_KEY}`);
+  if (!response.ok) {
+    throw new Error('Oops... something went wrong...');
+  }
+  return response.json();
+};
