@@ -1,13 +1,13 @@
-// const BASE_URL = 'https://pixabay.com/api/';
+const BASE_URL = 'https://api.themoviedb.org/';
 
-// const API_KEY = '35698435-4c63849f1d133deb699669e72';
+const API_KEY = 'ec3ca0e4403710b7fc1497b1dbf32c54';
 
-// export const getImages = async ({ nextQuery, nextPage }) => {
-//   const response = await fetch(
-//     `${BASE_URL}?q=${nextQuery}&page=${nextPage}&key=${API_KEY}&image_type=photo&orientation=horizontal&per_page=12`
-//   );
-//   if (!response.ok) {
-//     throw new Error('Oops... something went wrong...');
-//   }
-//   return response.json();
-// };
+export const getTrendingMovies = async () => {
+  const response = await fetch(
+    `${BASE_URL}3/trending/all/day?api_key=${API_KEY}&language=en-US`
+  );
+  if (!response.ok) {
+    throw new Error('Oops... something went wrong...');
+  }
+  return response.json();
+};
