@@ -4,14 +4,14 @@ import { Link } from 'react-router-dom';
 export default function Home() {
   const [popularFilms, setPopularFilms] = useState([]);
   useEffect(() => {
-    const fetchImages = async () => {
+    const fetchMovies = async () => {
       try {
         const data = await getTrendingMovies();
         setPopularFilms(data.results);
-        console.log(data);
+        // console.log(data);
       } catch (error) {}
     };
-    fetchImages();
+    fetchMovies();
 
     //
   }, []);

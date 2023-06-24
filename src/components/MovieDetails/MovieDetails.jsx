@@ -7,15 +7,15 @@ export default function MovieDetails() {
   const params = useParams();
   const movieId = params.movieId;
   useEffect(() => {
-    const fetchImages = async () => {
+    const fetchMovieById = async () => {
       try {
         const data = await getMovieById(movieId);
         // setMovie(data.results);
         setMovie(data);
-        console.log(data);
+        // console.log(data);
       } catch (error) {}
     };
-    fetchImages();
+    fetchMovieById();
 
     //
   }, [movieId]);
@@ -29,7 +29,13 @@ export default function MovieDetails() {
       <h1>{movie.title}</h1>
       <p>Popularity: {movie.popularity}</p>
       <p>Overview: {movie.overview}</p>
-      {/* <p>Genres: {movie.genres}</p> */}
+      {movie.genres && (
+        <ul>
+          {movie.genres.map(({ name, id }) => {
+            return <li key={id}>{name}</li>;
+          })}
+        </ul>
+      )}
       <ul>
         <li>
           <Link to={'cast'}>Cast</Link>

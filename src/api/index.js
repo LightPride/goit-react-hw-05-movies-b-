@@ -17,5 +17,28 @@ export const getMovieById = async id => {
   if (!response.ok) {
     throw new Error('Oops... something went wrong...');
   }
+
+  return response.json();
+};
+
+export const getMovieCredits = async id => {
+  const response = await fetch(
+    `${BASE_URL}3/movie/${id}/credits?api_key=${API_KEY}`
+  );
+  if (!response.ok) {
+    throw new Error('Oops... something went wrong...');
+  }
+
+  return response.json();
+};
+
+export const getMovieReviews = async id => {
+  const response = await fetch(
+    `${BASE_URL}3/movie/${id}/reviews?api_key=${API_KEY}`
+  );
+  if (!response.ok) {
+    throw new Error('Oops... something went wrong...');
+  }
+
   return response.json();
 };
