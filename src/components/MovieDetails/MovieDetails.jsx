@@ -1,7 +1,8 @@
 import { Link, Outlet, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { getMovieById } from 'api';
-import { MovieImage } from './MovieDetails.styled';
+import MovieImage from './MovieImage';
+
 export default function MovieDetails() {
   const [movie, setMovie] = useState({});
   const params = useParams();
@@ -10,9 +11,8 @@ export default function MovieDetails() {
     const fetchMovieById = async () => {
       try {
         const data = await getMovieById(movieId);
-        // setMovie(data.results);
+
         setMovie(data);
-        // console.log(data);
       } catch (error) {}
     };
     fetchMovieById();
@@ -22,19 +22,7 @@ export default function MovieDetails() {
 
   return (
     <>
-      {movie.poster_path ? (
-        <MovieImage
-          src={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
-          alt={movie.title}
-        />
-      ) : (
-        <MovieImage
-          src={
-            'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg'
-          }
-          alt={movie.title}
-        />
-      )}
+      <MovieImage movie={movie}></MovieImage>
 
       <h1>{movie.title}</h1>
       <p>

@@ -1,36 +1,38 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { getMoviesBySearch } from 'api';
-import { Link, useSearchParams } from 'react-router-dom';
-import { SearchForm, SearchFormInput, SearchFormButton } from './Movies.styled';
+import { Link } from 'react-router-dom';
 
+import SearchBar from '../SearchBar/SearchBar';
+import Notiflix from 'notiflix';
 export default function Movies() {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const movieName = searchParams.get('movieName');
+  const [movies, setMovies] = useState([]);
 
-  const handleSubmit = event => {
-    event.preventDefault();
-    if (movieName.trim() === '') {
-      Notiflix.Notify.warning('Search querry should not be empty!');
-      return;
-    }
-    onSubmit(searchInput);
-    setSearchInput('');
+  const handleFormSubmit = movieName => {
+    const fetchMovies = async () => {
+      try {
+        const data = await getMoviesBySearch(movieName);
+        setMovies(data.results);
+
+        if (data.results.length === 0) {
+          Notiflix.Notify.warning('There are no films found');
+        }
+      } catch (error) {}
+    };
+    fetchMovies();
   };
-  };
+
   return (
     <>
-      <SearchForm>
-        <SearchFormButton type="submit"></SearchFormButton>
-
-        <SearchFormInput
-          type="text"
-          autoComplete="off"
-          autoFocus
-          placeholder="Search Movies"
-          value={movieName}
-          onChange={event => setSearchParams({ movieName: event.target.value })}
-        />
-      </SearchForm>
+      <SearchBar onSubmit={handleFormSubmit}></SearchBar>
+      <ul>
+        {movies.map(({ title, name, id }) => {
+          return (
+            <li key={id}>
+              <Link to={`/movies/${id}`}>{name ? name : title}</Link>
+            </li>
+          );
+        })}
+      </ul>
     </>
   );
 }

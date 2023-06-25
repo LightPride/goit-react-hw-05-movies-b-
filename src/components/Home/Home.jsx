@@ -12,8 +12,6 @@ export default function Home() {
       } catch (error) {}
     };
     fetchMovies();
-
-    //
   }, []);
   return (
     <ul>

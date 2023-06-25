@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
 
-export const MovieImage = styled.img`
+export const MovieImageWrap = styled.img`
   width: 200px;
 `;
