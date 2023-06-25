@@ -8,7 +8,7 @@ export default function Home() {
       try {
         const data = await getTrendingMovies();
         setPopularFilms(data.results);
-        // console.log(data);
+        console.log(data.results);
       } catch (error) {}
     };
     fetchMovies();
@@ -17,10 +17,10 @@ export default function Home() {
   }, []);
   return (
     <ul>
-      {popularFilms.map(({ name, id }) => {
+      {popularFilms.map(({ title, name, id }) => {
         return (
           <li key={id}>
-            <Link to={`/movies/${id}`}>{name}</Link>
+            <Link to={`/movies/${id}`}>{name ? name : title}</Link>
           </li>
         );
       })}

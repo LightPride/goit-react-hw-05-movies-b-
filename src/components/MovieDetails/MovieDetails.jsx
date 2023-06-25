@@ -22,13 +22,28 @@ export default function MovieDetails() {
 
   return (
     <>
-      <MovieImage
-        src={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
-        alt={movie.title}
-      />
+      {movie.poster_path ? (
+        <MovieImage
+          src={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
+          alt={movie.title}
+        />
+      ) : (
+        <MovieImage
+          src={
+            'https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg'
+          }
+          alt={movie.title}
+        />
+      )}
+
       <h1>{movie.title}</h1>
-      <p>Popularity: {movie.popularity}</p>
-      <p>Overview: {movie.overview}</p>
+      <p>
+        Popularity:{' '}
+        {movie.popularity ? movie.popularity : 'No information found'}
+      </p>
+      <p>
+        Overview: {movie.overview ? movie.overview : 'No information found'}
+      </p>
       {movie.genres && (
         <ul>
           {movie.genres.map(({ name, id }) => {
