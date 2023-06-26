@@ -2,16 +2,20 @@ import { Link, Outlet, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { getMovieById } from 'api';
 import MovieImage from './MovieImage';
+import Loader from 'components/Loader/Loader';
+import { MovieImageWrapper } from './MovieDetails.styled';
 
 export default function MovieDetails() {
   const [movie, setMovie] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
   const params = useParams();
   const movieId = params.movieId;
   useEffect(() => {
+    setIsLoading(true);
     const fetchMovieById = async () => {
       try {
         const data = await getMovieById(movieId);
-
+        setIsLoading(false);
         setMovie(data);
       } catch (error) {}
     };
@@ -22,8 +26,13 @@ export default function MovieDetails() {
 
   return (
     <>
-      <MovieImage movie={movie}></MovieImage>
-
+      <MovieImageWrapper>
+        {isLoading ? (
+          <Loader></Loader>
+        ) : (
+          <MovieImage movie={movie}></MovieImage>
+        )}
+      </MovieImageWrapper>
       <h1>{movie.title}</h1>
       <p>
         Popularity:{' '}
