@@ -3,7 +3,13 @@ import { useEffect, useRef, useState, Suspense } from 'react';
 import { getMovieById } from 'api';
 import MovieImage from './MovieImage';
 import Loader from '../../Loader/Loader';
-import { MovieImageWrapper } from './MovieDetails.styled';
+import {
+  MovieImageWrapper,
+  GoBackLink,
+  MovieTitle,
+  PageUl,
+  PageLi,
+} from './MovieDetails.styled';
 
 export default function MovieDetails() {
   const [movie, setMovie] = useState({});
@@ -28,15 +34,11 @@ export default function MovieDetails() {
 
   return (
     <>
-      <Link to={backLinkLocationRef.current}>Go back</Link>
+      <GoBackLink to={backLinkLocationRef.current}>Go back</GoBackLink>
       <MovieImageWrapper>
-        {isLoading ? (
-          <Loader></Loader>
-        ) : (
-          <MovieImage movie={movie}></MovieImage>
-        )}
+        {isLoading ? <Loader /> : <MovieImage movie={movie}></MovieImage>}
       </MovieImageWrapper>
-      <h1>{movie.title}</h1>
+      <MovieTitle>{movie.title}</MovieTitle>
       <p>
         Popularity:{' '}
         {movie.popularity ? movie.popularity : 'No information found'}
@@ -45,20 +47,25 @@ export default function MovieDetails() {
         Overview: {movie.overview ? movie.overview : 'No information found'}
       </p>
       {movie.genres && (
-        <ul>
-          {movie.genres.map(({ name, id }) => {
-            return <li key={id}>{name}</li>;
-          })}
-        </ul>
+        <>
+          <div>
+            Genres:
+            <PageUl>
+              {movie.genres.map(({ name, id }) => {
+                return <PageLi key={id}>{name}</PageLi>;
+              })}
+            </PageUl>
+          </div>
+        </>
       )}
-      <ul>
-        <li>
+      <PageUl>
+        <PageLi>
           <Link to={'cast'}>Cast</Link>
-        </li>
-        <li>
+        </PageLi>
+        <PageLi>
           <Link to={'reviews'}>Reviews</Link>
-        </li>
-      </ul>
+        </PageLi>
+      </PageUl>
       <Suspense fallback={<Loader></Loader>}>
         <Outlet />
       </Suspense>

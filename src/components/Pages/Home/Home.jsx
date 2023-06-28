@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { getTrendingMovies } from 'api';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+import { MovieLink, PageLi } from './Home.styled';
 export default function Home() {
   const [popularFilms, setPopularFilms] = useState([]);
   const location = useLocation();
@@ -17,11 +18,11 @@ export default function Home() {
     <ul>
       {popularFilms.map(({ title, name, id }) => {
         return (
-          <li key={id}>
-            <Link to={`/movies/${id}`} state={{ from: location }}>
+          <PageLi key={id}>
+            <MovieLink to={`/movies/${id}`} state={{ from: location }}>
               {name ? name : title}
-            </Link>
-          </li>
+            </MovieLink>
+          </PageLi>
         );
       })}
     </ul>
