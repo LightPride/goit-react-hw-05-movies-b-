@@ -3,15 +3,17 @@ import {
   SearchFormInput,
   SearchFormButton,
 } from './SearchBar.styled';
-// import { useState } from 'react';
+import { FaSearch } from 'react-icons/fa';
 import { useSearchParams } from 'react-router-dom';
 import Notiflix from 'notiflix';
+
 export default function SearchBar({ onSubmit }) {
   // const [searchInput, setSearchInput] = useState('');
   const [searchParams, setSearchParams] = useSearchParams();
   const movieName = searchParams.get('query') ?? '';
   const handleInputChange = event => {
     const movieNameValue = event.target.value;
+
     if (movieNameValue === '') {
       return setSearchParams({});
     }
@@ -25,6 +27,8 @@ export default function SearchBar({ onSubmit }) {
       return;
     }
     onSubmit(movieName);
+    const form = event.currentTarget;
+    form.reset();
   };
 
   return (
@@ -35,10 +39,11 @@ export default function SearchBar({ onSubmit }) {
           autoComplete="off"
           autoFocus
           placeholder="Search Movies"
-          value={movieName}
           onChange={handleInputChange}
         />
-        <SearchFormButton type="submit"></SearchFormButton>
+        <SearchFormButton type="submit">
+          <FaSearch />
+        </SearchFormButton>
       </SearchForm>
     </>
   );

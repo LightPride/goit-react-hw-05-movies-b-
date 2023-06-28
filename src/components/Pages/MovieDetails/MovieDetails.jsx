@@ -1,14 +1,16 @@
-import { Link, Outlet, useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { Link, Outlet, useLocation, useParams } from 'react-router-dom';
+import { useEffect, useRef, useState, Suspense } from 'react';
 import { getMovieById } from 'api';
 import MovieImage from './MovieImage';
-import Loader from 'components/Loader/Loader';
+import Loader from '../../Loader/Loader';
 import { MovieImageWrapper } from './MovieDetails.styled';
 
 export default function MovieDetails() {
   const [movie, setMovie] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const params = useParams();
+  const location = useLocation();
+  const backLinkLocationRef = useRef(location.state?.from ?? '/');
   const movieId = params.movieId;
   useEffect(() => {
     setIsLoading(true);
@@ -26,6 +28,7 @@ export default function MovieDetails() {
 
   return (
     <>
+      <Link to={backLinkLocationRef.current}>Go back</Link>
       <MovieImageWrapper>
         {isLoading ? (
           <Loader></Loader>
@@ -56,7 +59,9 @@ export default function MovieDetails() {
           <Link to={'reviews'}>Reviews</Link>
         </li>
       </ul>
-      <Outlet />
+      <Suspense fallback={<Loader></Loader>}>
+        <Outlet />
+      </Suspense>
     </>
   );
 }

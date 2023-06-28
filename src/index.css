@@ -10,6 +10,7 @@ html {
 *::before,
 *::after {
   box-sizing: inherit;
+  /* color: #42cea2; */
 }
 
 body {
