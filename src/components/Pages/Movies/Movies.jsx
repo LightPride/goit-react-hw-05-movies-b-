@@ -1,13 +1,20 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { getMoviesBySearch } from 'api';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useSearchParams } from 'react-router-dom';
 import { MovieLink, PageLi } from './Movies.styled';
 import SearchBar from '../../SearchBar/SearchBar';
 import Notiflix from 'notiflix';
 export default function Movies() {
   const [movies, setMovies] = useState([]);
   const location = useLocation();
-
+  const [searchParams] = useSearchParams();
+  const previousSearch = searchParams.get('query');
+  //
+  useEffect(() => {
+    if (previousSearch) {
+      fetchMovies(previousSearch);
+    }
+  }, [previousSearch]);
   const handleFormSubmit = movieName => {
     fetchMovies(movieName);
   };
