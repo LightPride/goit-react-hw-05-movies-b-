@@ -6,34 +6,29 @@ import SearchBar from '../../SearchBar/SearchBar';
 import Notiflix from 'notiflix';
 export default function Movies() {
   const [movies, setMovies] = useState([]);
+
   const location = useLocation();
   const [searchParams] = useSearchParams();
-  const previousSearch = searchParams.get('query');
+  const movieName = searchParams.get('query');
   //
   useEffect(() => {
-    if (previousSearch) {
-      fetchMovies(previousSearch);
+    const fetchMovies = async movieName => {
+      try {
+        const data = await getMoviesBySearch(movieName);
+        setMovies(data.results);
+        if (data.results.length === 0) {
+          Notiflix.Notify.warning('There are no films found');
+        }
+      } catch (error) {}
+    };
+    if (movieName) {
+      fetchMovies(movieName);
     }
-  }, [previousSearch]);
-  const handleFormSubmit = movieName => {
-    fetchMovies(movieName);
-  };
-
-  const fetchMovies = async movieName => {
-    try {
-      const data = await getMoviesBySearch(movieName);
-      setMovies(data.results);
-      localStorage.setItem('movies', JSON.stringify(data.results));
-
-      if (data.results.length === 0) {
-        Notiflix.Notify.warning('There are no films found');
-      }
-    } catch (error) {}
-  };
+  }, [movieName]);
 
   return (
     <>
-      <SearchBar onSubmit={handleFormSubmit}></SearchBar>
+      <SearchBar></SearchBar>
       <ul>
         {movies.map(({ title, name, id }) => {
           return (

@@ -7,27 +7,19 @@ import { FaSearch } from 'react-icons/fa';
 import { useSearchParams } from 'react-router-dom';
 import Notiflix from 'notiflix';
 
-export default function SearchBar({ onSubmit }) {
-  // const [searchInput, setSearchInput] = useState('');
+export default function SearchBar() {
+  // eslint-disable-next-line no-unused-vars
   const [searchParams, setSearchParams] = useSearchParams();
-  const movieName = searchParams.get('query') ?? '';
-  const handleInputChange = event => {
-    const movieNameValue = event.target.value;
-
-    if (movieNameValue === '') {
-      return setSearchParams({});
-    }
-    setSearchParams({ query: movieNameValue });
-  };
 
   const handleSubmit = event => {
     event.preventDefault();
-    if (movieName.trim() === '') {
+    const form = event.currentTarget;
+    if (form.elements.searchInput.value.trim() === '') {
       Notiflix.Notify.warning('Search querry should not be empty!');
       return;
     }
-    onSubmit(movieName);
-    const form = event.currentTarget;
+
+    setSearchParams({ query: form.elements.searchInput.value });
     form.reset();
   };
 
@@ -39,7 +31,7 @@ export default function SearchBar({ onSubmit }) {
           autoComplete="off"
           autoFocus
           placeholder="Search Movies"
-          onChange={handleInputChange}
+          name="searchInput"
         />
         <SearchFormButton type="submit">
           <FaSearch />
